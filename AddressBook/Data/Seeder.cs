@@ -8,6 +8,7 @@ namespace AddressBook.Data
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
+            
             if(context.Adresses.Any())
             {
                 return;

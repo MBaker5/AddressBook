@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AddressBook.Models;
+using AddressBook.Data;
 
 namespace AddressBook.Controllers
 {
@@ -55,7 +51,7 @@ namespace AddressBook.Controllers
         [HttpPost]
         public async Task<ActionResult<Adress>> PostAdress(Adress adress)
         {
-            if (_context.Adresses == null)
+            if (!_context.Adresses.Any())
             {
                 return Problem("Entity set 'AdressDbContext.Adresses'  is null.");
             }
@@ -84,11 +80,6 @@ namespace AddressBook.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool AdressExists(int id)
-        {
-            return (_context.Adresses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

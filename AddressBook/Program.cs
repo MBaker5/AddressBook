@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using AddressBook.Models;
 using AddressBook.Data;
 using Serilog.AspNetCore;
 using Serilog;
