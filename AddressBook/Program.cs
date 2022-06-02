@@ -16,8 +16,10 @@ builder.Services.AddDbContext<AdressDbContext>(options => options.UseInMemoryDat
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddMvc(opt => opt.SuppressAsyncSuffixInActionNames = false);
+builder.Services.AddCors(opt => opt.AddPolicy(name: "mySpecialPolicy", policy => { policy.WithOrigins("https://localhost:7234"); }));
 var app = builder.Build();
+
 
 await CreateSeedDb(app);
 
@@ -29,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("mySpecialPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
@@ -47,7 +49,7 @@ async Task CreateSeedDb(IHost host)
     }
     catch(Exception e)
     {
-        // todo Add logger
+        Log.Error("Ups! Creating Seed go wrong!");
     }
 }
 

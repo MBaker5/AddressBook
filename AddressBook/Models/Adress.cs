@@ -16,6 +16,5 @@ namespace AddressBook.Models
         public string? Street { get; set; }
         public DateTime Created { get; set; }
 
-       
     }
 }

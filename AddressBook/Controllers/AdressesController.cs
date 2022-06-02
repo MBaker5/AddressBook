@@ -6,13 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AddressBook.Models;
-using Serilog;
-using Serilog.AspNetCore;
-
 
 namespace AddressBook.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AdressesController : ControllerBase
     {
@@ -24,11 +21,10 @@ namespace AddressBook.Controllers
         }
 
         //// GET: api/Adress
+        
         [HttpGet]
         public async Task<ActionResult<Adress>> GetNewestAdress()
         {
-            Log.Information("The global logger has been configured");
-
             if (!_context.Adresses.Any())
             {
                 return NotFound();
@@ -39,7 +35,7 @@ namespace AddressBook.Controllers
         }
 
         //// GET: api/Adresses/5
-        [Route("api/{City}")]
+        
         [HttpGet]
         public async Task<ActionResult<List<Adress>>> GetAdressByCity(string City)
         {
@@ -63,11 +59,11 @@ namespace AddressBook.Controllers
             {
                 return Problem("Entity set 'AdressDbContext.Adresses'  is null.");
             }
+
             _context.Adresses.Add(adress);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAdress", new
-            { id = adress.Id }, adress);
+            return CreatedAtAction("PostAdress", adress);
         }
 
         //// DELETE: api/Adresses/5
